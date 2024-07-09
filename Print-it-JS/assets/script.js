@@ -1,4 +1,4 @@
-"use strict";   // Use ECMAScript 6 features
+"use strict";   // "utiliser des règles strictes
 
 //! ************ CONSTANTS ************
 
@@ -24,8 +24,8 @@ const slides = [
 const LENGTH = slides.length;
 const URL = "./assets/images/slideshow/";
 
-const arrowLeft = document.querySelector(".arrow-left");
-const arrowRight = document.querySelector(".arrow-right");
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
 const image = document.querySelector(".banner-img");
 const tagLine = document.querySelector("#banner p");
 const dots = document.querySelector(".dots");
@@ -37,58 +37,74 @@ let allDots;
 
 //! ************ FUNCTIONS ************
 
-function updateDots() {
-  // TODO: ecrire le code pour mettre à jour les points
+//Mettre à jour le style des points pour indiquer la diapositive en cours.
 
+const updateDots = () => {
   for (let i = 0; i < allDots.length; i++) {
-    allDots[i].classList.remove("dot_selected");
+    allDots[i].classList.remove("dot_selected"); 
   }
 
   allDots[currentSlide].classList.add("dot_selected");
 }
 
-function updateSlider() {
-  // TODO: ecrire le code pour mettre à jour le slider
+//Met à jour le curseur en définissant la source de l'image et le slogan en fonction de la diapositive en cours.
+ // Les points sont également mis à jour pour indiquer la diapositive en cours. 
 
+const updateSlider = () => {
   image.setAttribute('src', URL + slides[currentSlide].image);
   tagLine.innerHTML = slides[currentSlide].tagLine;
   
   updateDots();
-  
 }
 
-function addDots() {
-  dots.innerHTML = ""; // Clear existing dots
-  for (let i = 0; i < slides.length; i++) {
+// Ajoute des points pour la navigation.
+//Ajoute des points à l'élément conteneur dots en fonction du nombre de diapositives.
+// Chaque point est créé comme un élément span avec la classe "dot". Les points sont
+// ajoutés à l'élément conteneur dots. Les points sont ajoutés à l'élément conteneur dots. Après avoir ajouté les points, la fonction
+// sélectionne le premier élément point et lui ajoute la classe "dot_selected".
+const addDots = () => {
+  for (const slide of slides) {
     const addDot = document.createElement("span");
-    addDot.classList.add("dot");
+    addDot.classList = "dot";
     dots.appendChild(addDot);
+
+    allDots = document.getElementsByClassName("dot");
+    document.querySelector(".dot").classList.add("dot_selected");
   }
-
-  allDots = document.getElementsByClassName("dot");
-  allDots[0].classList.add("dot_selected"); // Select the first dot initially
-  console.log(allDots);
 }
 
-function slideLeft() {
-  // TODO: ecrire le code pour faire glisser le slider vers la gauche
+// Met à jour la diapositive actuelle par rapport à la diapositive précédente.
+// Définit le slogan et la source de l'image en fonction de la nouvelle diapositive.
+// Appelle la fonction updateDots pour indiquer la diapositive en cours.
+
+const slideLeft = () => {
   currentSlide = (currentSlide + LENGTH - 1) % LENGTH;
-  updateSlider();
+  tagLine.innerHTML = slides[currentSlide].tagLine;
+
+  image.setAttribute('src', URL + slides[currentSlide].image);
+  updateDots();
 }
 
-function slideRight() {
-  // TODO: ecrire le code pour faire glisser le slider vers la droite
+// Met à jour la diapositive actuelle par rapport à la diapositive précédente.
+// Définit le slogan et la source de l'image en fonction de la nouvelle diapositive.
+// Appelle la fonction updateDots pour indiquer la diapositive en cours.
+
+const slideRight = () => {
   currentSlide = (currentSlide + 1) % LENGTH;
-  updateSlider();
+  tagLine.innerHTML = slides[currentSlide].tagLine;
+
+  image.setAttribute('src', URL + slides[currentSlide].image);
+  updateDots();
 }
 
-function addListeners() {
-  // TODO: ecrire le code pour ajouter les listeners sur les boutons
+// Ajoute des gestionnaires d'évènements pour la navigation.
+// Ajoute des récepteurs d'événements aux éléments arrowRight et arrowLeft.
+const addListeners = () => {
   arrowRight.addEventListener("click", slideRight);
   arrowLeft.addEventListener("click", slideLeft);
 }
 
-//! ************ MAIN ************
+// ************ MAIN ************//
 
 addDots();
 addListeners();
